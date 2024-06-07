@@ -7,6 +7,7 @@ export const Login = () => {
     password:''
   }
 
+
   return (
     <div>
     <div className="news_section layout_padding">
@@ -20,6 +21,7 @@ export const Login = () => {
       <div className='col-md-6'>
         <Formik 
           initialValues={initialValues}
+    
         >
           <Form>
             <div className="form-floating">
