@@ -1,10 +1,45 @@
 import { Field, Form, Formik } from 'formik'
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2'
+import { useContext } from 'react';
+import { UserContext } from '../context/UserContext';
 
 export const Login = () => {
+
+  const navigate = useNavigate();
 
   const initialValues = {
     email:'',
     password:''
+  }
+
+  const { setUser } = useContext(UserContext);
+
+
+  const handleForm = async(values) => {
+    try {
+      const response = await axios.post('http://localhost:5000/auth/login', values)
+      console.log(response.data)
+      Swal.fire({
+        icon: 'success',
+        title: 'Logueo exitoso',
+        showConfirmButton: false,
+        timer: 1800
+      })
+      setUser({
+        logged:true
+      })
+      navigate('/dashboard')
+    } catch (error) {
+      console.log(error)
+      Swal.fire({
+        icon: 'error',
+        title: 'Error de autenticación',
+        showConfirmButton: false,
+        timer: 1800
+      })
+    }
   }
 
 
@@ -20,8 +55,8 @@ export const Login = () => {
     <div className='row justify-content-center'> 
       <div className='col-md-6'>
         <Formik 
-          initialValues={initialValues}
-    
+            initialValues={initialValues}
+            onSubmit={handleForm}
         >
           <Form>
             <div className="form-floating">

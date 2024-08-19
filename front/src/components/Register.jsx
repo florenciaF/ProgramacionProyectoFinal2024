@@ -1,10 +1,14 @@
-import React from 'react'
 import { Field, Form, Formik } from 'formik'
 import axios from 'axios';
-
+import { useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2'
+import { useContext } from 'react';
+import { UserContext } from '../context/UserContext';
 
 
 export const Register = () => {
+
+  const navigate = useNavigate();
 
   const initialValues = {
     name: '',
@@ -12,11 +16,23 @@ export const Register = () => {
     password: ''
   }
 
+  const { setUser } = useContext(UserContext);
+
   const handleRegister = async( values) => {
-    console.log('valores', values)
+    console.log("handleRegister")
       try {
           const response = await axios.post('http://localhost:5000/auth/register', values)
           console.log(response.data) 
+          Swal.fire({
+            icon: 'success',
+            title: 'Registro exitoso',
+            showConfirmButton: false,
+            timer: 1800
+          })
+          setUser({
+            logged:true
+          })
+          navigate('/dashboard')
       } catch (error) {
         console.log(error)
       }

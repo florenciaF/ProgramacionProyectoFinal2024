@@ -1,11 +1,13 @@
 from flask import Flask
 from flask_cors import CORS
 from routes import auth
+from routes import externalApi
 from database import db, FULL_URL_DB
 from flask_migrate import Migrate
 
 app = Flask(__name__)
 CORS(app)
+
 
 app.config['SQLALCHEMY_DATABASE_URI'] = FULL_URL_DB
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -19,6 +21,7 @@ migrate.init_app(app,db)
 
 
 app.register_blueprint(auth)
+app.register_blueprint(externalApi)
 
 if __name__ == "__main__":
     app.run(port=5000)
