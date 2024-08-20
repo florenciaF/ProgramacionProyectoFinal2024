@@ -22,20 +22,41 @@ export const Navbar = () => {
                 </button>
             
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav ms-auto">
-                        <li class="nav-item active">
-                            <Link className="nav-link" to="/home">Home</Link>
-                        </li>
-                        <li class="nav-item">
-                            <Link className="nav-link" to="/login">Login</Link>
-                        </li>
-                        <li class="nav-item">
-                            <Link className="nav-link" to="/register">Registro</Link>
-                        </li>
-                        <li className="nav-item">
-                            <Link className="nav-link" to="/" onClick={handleLogOut} >Salir</Link>
-                        </li>
-                    </ul>
+                    {
+                        //administrador
+                        user.role === '1' ? (
+                            <ul class="navbar-nav ms-auto">
+                                <li class="nav-item">
+                                    <Link className="nav-link" to="/dashboardAdmin"> Panel Admin</Link>
+                                </li>
+                                <li className="nav-item">
+                                    <Link className="nav-link" to="/" onClick={handleLogOut} >Salir</Link>
+                                </li>
+                            </ul>
+                        //usuario común
+                        ): user.role === '2' ? (
+                            <ul class="navbar-nav ms-auto">
+                                <li class="nav-item active">
+                                    <Link className="nav-link" to="/dashboard"> Panel usuario</Link>
+                                </li>
+                                <li className="nav-item">
+                                    <Link className="nav-link" to="/" onClick={handleLogOut} >Salir</Link>
+                                </li>
+                            </ul> 
+                        ):( 
+                            <ul className="navbar-nav ms-auto">
+                                <li className="nav-item active">
+                                    <Link className="nav-link" to="/">Home</Link>
+                                </li>
+                                <li className="nav-item">
+                                    <Link className="nav-link" to="/register">Registro</Link>
+                                </li>
+                                <li className="nav-item">
+                                    <Link className="nav-link" to="/login">Login</Link>
+                                </li>
+                            </ul> 
+                        )
+                    }
                 </div>
             </nav> 
         </>

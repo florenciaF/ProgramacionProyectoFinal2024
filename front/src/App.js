@@ -9,7 +9,8 @@ import { UserContext } from "./context/UserContext";
 function App() {
 
   const [user, setUser] = useState({
-    logged:false
+    logged:false,
+    role:''
   });
 
   console.log('user logged:', user.logged); // Debugging

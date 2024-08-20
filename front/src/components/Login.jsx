@@ -21,6 +21,10 @@ export const Login = () => {
     try {
       const response = await axios.post('http://localhost:5000/auth/login', values)
       console.log(response.data)
+
+      const { role } = response.data
+      console.log(response.data)
+
       Swal.fire({
         icon: 'success',
         title: 'Logueo exitoso',
@@ -28,11 +32,13 @@ export const Login = () => {
         timer: 1800
       })
       setUser({
-        logged:true
+        logged:true,
+        role: role,
       })
-      navigate('/dashboard')
+      navigate('/panel')
     } catch (error) {
       console.log(error)
+      console.log('estoy en catch')
       Swal.fire({
         icon: 'error',
         title: 'Error de autenticación',

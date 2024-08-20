@@ -14,15 +14,19 @@ export const Register = () => {
     name: '',
     email:'',
     password: ''
-  }
+  } 
 
-  const { setUser } = useContext(UserContext);
+  const {setUser} = useContext(UserContext);
 
   const handleRegister = async( values) => {
     console.log("handleRegister")
       try {
           const response = await axios.post('http://localhost:5000/auth/register', values)
           console.log(response.data) 
+
+          const {role} = response.data //variable que proviene del back
+          console.log('role', role)
+
           Swal.fire({
             icon: 'success',
             title: 'Registro exitoso',
@@ -30,9 +34,10 @@ export const Register = () => {
             timer: 1800
           })
           setUser({
-            logged:true
+            logged:true,
+            role: role,
           })
-          navigate('/dashboard')
+          navigate('/panel')
       } catch (error) {
         console.log(error)
       }
