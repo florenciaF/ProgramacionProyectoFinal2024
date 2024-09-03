@@ -15,7 +15,7 @@ export const Navbar = () => {
 
     return (
         <>
-            <nav class="navbar navbar-expand-lg navbar-light bg-dark" data-bs-theme="dark" >
+            <nav class="navbar navbar-expand-lg navbar-light bg-light" data-bs-theme="light" >
                 <a class="navbar-brand" href="/#" > <img src={require(`../img/um.png`)} alt="" width="50px" height="50px"/></a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -28,6 +28,12 @@ export const Navbar = () => {
                             <ul class="navbar-nav ms-auto">
                                 <li class="nav-item">
                                     <Link className="nav-link" to="/dashboardAdmin"> Panel Admin</Link>
+                                </li>
+                                <li className="nav-item">
+                                    <Link className="nav-link" to="/addEvent">Crear Evento</Link>
+                                </li>
+                                <li className="nav-item">
+                                    <Link className="nav-link" to="/listEvents">Listar Eventos</Link>
                                 </li>
                                 <li className="nav-item">
                                     <Link className="nav-link" to="/" onClick={handleLogOut} >Salir</Link>
@@ -46,7 +52,7 @@ export const Navbar = () => {
                         ):( 
                             <ul className="navbar-nav ms-auto">
                                 <li className="nav-item active">
-                                    <Link className="nav-link" to="/">Home</Link>
+                                    <Link className="nav-link" to="/home">Home</Link>
                                 </li>
                                 <li className="nav-item">
                                     <Link className="nav-link" to="/register">Registro</Link>

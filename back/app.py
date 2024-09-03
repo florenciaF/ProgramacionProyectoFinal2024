@@ -1,10 +1,13 @@
 from flask import Flask
+from flask_restful import Api
 from flask_cors import CORS
-from routes import auth
+from resources.auth.routes import auth
 from database import db, FULL_URL_DB
 from flask_migrate import Migrate
+from resources.Event import EventsList
 
 app = Flask(__name__)
+api = Api(app)
 CORS(app)
 
 
@@ -18,16 +21,18 @@ db.init_app(app)
 migrate = Migrate()
 migrate.init_app(app,db)
 
-
+#blueprint
 app.register_blueprint(auth)
-# app.register_blueprint(externalApi)
+
+#resources
+api.add_resource(EventsList , '/events')
 
 if __name__ == "__main__":
     app.run(port=5000)
 
 
 
-
+ 
 
 
 
