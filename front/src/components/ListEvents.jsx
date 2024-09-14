@@ -1,10 +1,19 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import Swal from 'sweetalert2'
+import { UserContext } from '../context/UserContext';
 
 export const ListEvents = () => {
 
+    const { user } = useContext(UserContext);
+
+    const navigate = useNavigate();
 
     const [events, setEvents] = useState([]);
+ 
+    //almaceno los valores que se muestran en la ventana modal
+    const [editedEvent, setEditedEvent] = useState({ id: 0, name: '', description: '', lecturer:'', link:'' });
 
     useEffect(() => {
         fetchEvent();
@@ -21,6 +30,42 @@ export const ListEvents = () => {
         }
     };
 
+
+      //Editar evento
+
+    //Carga los "valores" del evento en la ventana modal (name, description, lecturer)
+    const onEditEvent = (event) => {
+        setEditedEvent(event);
+    };
+    
+    // Actualiza los campos que se editaron dentro de la ventana modal
+    //[e.target.name] es nombre del campo que sufrio un cambio 
+    // e.target.value es valor ingresado por el usuario. 
+    const handleInputChange = (e) => {
+        console.log('valor de e.target.name', e.target.name)
+        console.log('valor de e.target.value', e.target.value)
+        setEditedEvent({ ...editedEvent, [e.target.name]: e.target.value });
+    };
+
+
+    //Envia al back la nueva actualizacion
+    const handleUpdateEvent = async () => {
+
+        try {
+          await axios.put(`http://localhost:5000/event/${editedEvent.id}`, editedEvent);
+          fetchEvent();
+          setEditedEvent({ id: 0, name: '', description: '', lecturer:'', link:''});
+          Swal.fire({
+            icon: 'success',
+            title: 'Editado correctamente',
+            showConfirmButton: false,
+            timer: 1800
+          })
+          navigate('/listEvents')
+        } catch (error) {
+          console.error(error);
+        }
+    };
 
     return (
         <div>
@@ -46,7 +91,23 @@ export const ListEvents = () => {
                                         <td>{event.description}</td>
                                         <td>{event.lecturer}</td>
                                         <td>{event.link}</td>
-                                        <td>boton</td>
+                                        {
+                                            // usuario común solo puede postularse a una invitacion
+                                            user.role === '2' ? ( 
+                                                <div>
+                                                    <td> 
+                                                        <button type="button" className="btn btn-success" > Aplicar </button>
+                                                    </td>
+                                                </div>
+                                            // admin puede editar y eliminar
+                                            ):(
+                                                <div>
+                                                    <td> 
+                                                        <button type="button" className="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editEventModal" onClick={() => onEditEvent(event)}> Editar </button>
+                                                    </td>
+                                                </div>
+                                            )
+                                        }
                                     </tr>
                                 ))
                             }  
@@ -55,6 +116,67 @@ export const ListEvents = () => {
                     </table>
                 </div>
             </div>
+
+            <div className="modal fade" id="editEventModal"  aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div className="modal-dialog">
+                    <div className="modal-content">
+                    <div className="modal-header">
+                        <h1 className="modal-title fs-5" id="exampleModalLabel">Editar Evento</h1>
+                        <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div className="modal-body">
+                        <div className='row'>
+                            <div className='col-md-4'>
+                                <label>Nombre del evento</label><br></br>
+                                <input
+                                    type="text"
+                                    name="name"
+                                    value={editedEvent.name}
+                                    onChange={handleInputChange}
+                                    placeholder="Nombre"
+                                />
+                            </div>
+                            <div className='col-md-2'></div>
+                            <div className='col-md-4'>
+                                <label>Descripción</label><br></br>
+                                <input
+                                    type="text"
+                                    name="description"
+                                    value={editedEvent.description}
+                                    onChange={handleInputChange}
+                                    placeholder="Descripción"
+                                />
+                            </div>
+                            <div className='col-md-2'></div>
+                            <div className='col-md-4'>
+                                <label>Disertante</label><br></br>
+                                <input
+                                    type="text"
+                                    name="lecturer"
+                                    value={editedEvent.lecturer}
+                                    onChange={handleInputChange}
+                                    placeholder="Disertante"
+                                />
+                            </div>
+                            <div className='col-md-4'>
+                                <label>Link</label><br></br>
+                                <input
+                                    type="text"
+                                    name="link"
+                                    value={editedEvent.link}
+                                    onChange={handleInputChange}
+                                    placeholder="Link"
+                                />
+                            </div>
+                        </div>
+                    </div>
+                    <div className="modal-footer">
+                        <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="button" className="btn btn-success" data-bs-dismiss="modal" onClick={handleUpdateEvent}> Editar </button>
+                    </div>
+                    </div>
+                </div>
+            </div> 
         </div>
     )
 }

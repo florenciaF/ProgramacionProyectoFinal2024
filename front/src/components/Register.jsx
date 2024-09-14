@@ -11,7 +11,7 @@ export const Register = () => {
   const navigate = useNavigate();
 
   const initialValues = {
-    name: '',
+    name: 'Flor',
     email:'',
     password: ''
   } 

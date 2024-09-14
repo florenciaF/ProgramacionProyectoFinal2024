@@ -30,3 +30,15 @@ class EventsList(Resource):
         response.status_code = 200 
         return response
     
+class EventList(Resource):
+    
+     def put(self, id): 
+        event = Event.query.get_or_404(id)
+        event.name = request.json.get('name',event.name)
+        event.description = request.json.get('description',event.description)
+        event.lecturer = request.json.get('lecturer',event.lecturer)
+        event.link = request.json.get('link',event.link)
+        print( event.name, event.description, event.lecturer, event.link)
+        
+        db.session.commit()
+        return jsonify({'mensaje': 'Evento editado con éxito.'})
