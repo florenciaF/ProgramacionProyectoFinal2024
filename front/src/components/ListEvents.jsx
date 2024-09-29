@@ -4,7 +4,7 @@ import axios from 'axios';
 import Swal from 'sweetalert2'
 import { UserContext } from '../context/UserContext';
 
-export const ListEvents = () => {
+export const ListEvents = () => { 
 
     const { user } = useContext(UserContext);
 
@@ -31,7 +31,7 @@ export const ListEvents = () => {
     };
 
 
-      //Editar evento
+    //Editar evento
 
     //Carga los "valores" del evento en la ventana modal (name, description, lecturer)
     const onEditEvent = (event) => {
@@ -67,6 +67,51 @@ export const ListEvents = () => {
         }
     };
 
+
+    
+    //Eliminar evento
+    const onDeleteEvent = async (eventId) => {
+        console.log("eventId",eventId)
+        try {
+            await axios.delete(`http://localhost:5000/event/${eventId}`);
+            Swal.fire({
+                icon: 'success',
+                title: 'Eliminado correctamente',
+                showConfirmButton: false,
+                timer: 1800
+            })
+            fetchEvent();
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+
+
+    // Asistir a un evento 
+    const onAddAttendance = async (eventId) => {
+
+        const values = { 
+            userId:user.id,
+            eventId:eventId    
+        }
+
+        try {
+            const response = await axios.post('http://localhost:5000/attendances', values)
+            console.log(response.data)
+            Swal.fire({
+                icon: 'success',
+                title: 'Asistencia confirmada',
+                showConfirmButton: false,
+                timer: 1800
+            })
+            navigate('/listEvents')
+        } catch (error) {
+            console.log(error)
+        }
+    };
+
+
     return (
         <div>
             <div className='row'>
@@ -96,8 +141,9 @@ export const ListEvents = () => {
                                             user.role === '2' ? ( 
                                                 <div>
                                                     <td> 
-                                                        <button type="button" className="btn btn-success" > Aplicar </button>
+                                                        <button type="button" className="btn btn-success" onClick={() => onAddAttendance(event.id)} > Aplicar </button>
                                                     </td>
+                                                    
                                                 </div>
                                             // admin puede editar y eliminar
                                             ):(
@@ -105,6 +151,9 @@ export const ListEvents = () => {
                                                     <td> 
                                                         <button type="button" className="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editEventModal" onClick={() => onEditEvent(event)}> Editar </button>
                                                     </td>
+                                                    <td> 
+                                                        <button type="button" className="btn btn-danger"  onClick={() => onDeleteEvent(event.id)}>Eliminar</button>
+                                                    </td>  
                                                 </div>
                                             )
                                         }
@@ -133,7 +182,6 @@ export const ListEvents = () => {
                                     name="name"
                                     value={editedEvent.name}
                                     onChange={handleInputChange}
-                                    placeholder="Nombre"
                                 />
                             </div>
                             <div className='col-md-2'></div>

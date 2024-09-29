@@ -6,6 +6,8 @@ class Event(db.Model):
     description = db.Column(db.String(250))
     lecturer = db.Column(db.String(250))
     link = db.Column(db.String(250))
+    
+    eventAttendance = db.relationship("Attendance", backref='event', cascade="all, delete-orphan")
    
     def __str__(self):
         return (

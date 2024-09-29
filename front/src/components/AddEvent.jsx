@@ -40,7 +40,7 @@ export const AddEvent = () => {
             >
                 <Form> 
                     <div className="mb-3">
-                        <label for="exampleFormControlInput1" class="form-label">Nombre evento </label>
+                        <label htmlFor="exampleFormControlInput1" className="form-label">Nombre evento </label>
                         <Field 
                         type="text" 
                         className="form-control" 
@@ -50,7 +50,7 @@ export const AddEvent = () => {
                         />
                     </div>
                     <div className="mb-3">
-                        <label for="exampleFormControlInput1" class="form-label">Descripción del evento</label>
+                        <label htmlFor="exampleFormControlInput1" className="form-label">Descripción del evento</label>
                         <Field 
                         type="text" 
                         className="form-control" 
@@ -60,7 +60,7 @@ export const AddEvent = () => {
                         />
                     </div>
                     <div className="mb-3">
-                        <label for="exampleFormControlInput1" class="form-label">Disertante</label>
+                        <label htmlFor="exampleFormControlInput1" className="form-label">Disertante</label>
                         <Field 
                         type="text" 
                         className="form-control" 
@@ -70,7 +70,7 @@ export const AddEvent = () => {
                         />
                     </div>
                     <div className="mb-3">
-                        <label for="exampleFormControlInput1" class="form-label">Link</label>
+                        <label htmlFor="exampleFormControlInput1" className="form-label">Link</label>
                         <Field 
                         type="text" 
                         className="form-control" 
@@ -79,7 +79,7 @@ export const AddEvent = () => {
                         name='link'
                         />
                     </div>
-                    <button className="btn btn-primary w-100 py-2" type="submit" onClick={handleSubmit}>Agregar evento</button>
+                    <button className="btn btn-primary w-100 py-2" type="submit" >Agregar evento</button>
                 </Form>
             </Formik>
             </div>

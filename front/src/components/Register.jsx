@@ -11,7 +11,7 @@ export const Register = () => {
   const navigate = useNavigate();
 
   const initialValues = {
-    name: 'Flor',
+    name: '',
     email:'',
     password: ''
   } 
@@ -19,13 +19,13 @@ export const Register = () => {
   const {setUser} = useContext(UserContext);
 
   const handleRegister = async( values) => {
-    console.log("handleRegister")
       try {
           const response = await axios.post('http://localhost:5000/auth/register', values)
           console.log(response.data) 
 
-          const {role} = response.data //variable que proviene del back
+          const {role, idUser} = response.data //variable que proviene del back
           console.log('role', role)
+          console.log('idUser', idUser)
 
           Swal.fire({
             icon: 'success',
@@ -36,6 +36,7 @@ export const Register = () => {
           setUser({
             logged:true,
             role: role,
+            id:idUser
           })
           navigate('/panel')
       } catch (error) {
@@ -60,7 +61,7 @@ export const Register = () => {
        >
           <Form>
             <div className="mb-3">
-            <label for="exampleFormControlInput1" class="form-label">Nombre </label>
+            <label htmlFor="exampleFormControlInput1" className="form-label">Nombre </label>
               <Field 
                   type="text" 
                   className="form-control" 
@@ -70,7 +71,7 @@ export const Register = () => {
               />
             </div>
             <div className="mb-3">
-              <label for="exampleFormControlInput1" class="form-label">Email </label>
+              <label htmlFor="exampleFormControlInput1" className="form-label">Email </label>
                 <Field 
                     type="email" 
                     className="form-control" 
@@ -80,7 +81,7 @@ export const Register = () => {
                 />
             </div>
             <div className="mb-3">
-              <label for="exampleFormControlInput1" class="form-label"> Contraseña</label>
+              <label htmlFor="exampleFormControlInput1" className="form-label"> Contraseña</label>
               <Field 
                 type="password" 
                 className="form-control" 

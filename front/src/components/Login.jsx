@@ -22,7 +22,7 @@ export const Login = () => {
       const response = await axios.post('http://localhost:5000/auth/login', values)
       console.log(response.data)
 
-      const { role } = response.data
+      const { role, idUser } = response.data
       console.log(response.data)
 
       Swal.fire({
@@ -34,6 +34,7 @@ export const Login = () => {
       setUser({
         logged:true,
         role: role,
+        id:idUser
       })
       navigate('/panel')
     } catch (error) {
@@ -66,7 +67,7 @@ export const Login = () => {
           > 
             <Form>
               <div className="mb-3">
-                <label for="exampleFormControlInput1" class="form-label">Correo </label>
+                <label htmlFor="exampleFormControlInput1" className="form-label">Correo </label>
                 <Field 
                     type="email" 
                     className="form-control" 
@@ -76,7 +77,7 @@ export const Login = () => {
                 />
               </div>
               <div className="mb-3">
-                <label for="exampleFormControlInput1" class="form-label">Contraseña</label>
+                <label htmlFor="exampleFormControlInput1" className="form-label">Contraseña</label>
                 <Field 
                   type="password" 
                   className="form-control" 

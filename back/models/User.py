@@ -7,6 +7,8 @@ class User(db.Model):
     password = db.Column(db.String(250))
     role = db.Column(db.String(250))
 
+    userAttendances = db.relationship("Attendance", backref='user', cascade="all, delete-orphan")
+
 
     def __str__(self):
         return (

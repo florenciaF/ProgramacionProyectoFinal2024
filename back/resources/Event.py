@@ -16,7 +16,7 @@ class EventsList(Resource):
    
         event = Event(name=name, description=description, lecturer=lecturer, link=link)
         
-        db.session.add(event)
+        db.session.add(event),-l
         db.session.commit()
         return jsonify({'mensaje': 'Evento agregado con éxito.'})
     
@@ -32,7 +32,7 @@ class EventsList(Resource):
     
 class EventList(Resource):
     
-     def put(self, id): 
+    def put(self, id): 
         event = Event.query.get_or_404(id)
         event.name = request.json.get('name',event.name)
         event.description = request.json.get('description',event.description)
@@ -42,3 +42,11 @@ class EventList(Resource):
         
         db.session.commit()
         return jsonify({'mensaje': 'Evento editado con éxito.'})
+    
+    def delete(self, id):
+        event = Event.query.get_or_404(id)
+        db.session.delete(event)
+        db.session.commit()
+        return jsonify({'mensaje': 'Evento eliminado con éxito.'})
+    
+    

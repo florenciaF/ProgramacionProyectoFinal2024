@@ -5,12 +5,12 @@ export const Card = (props) => {
     <>
         <div className="card" style={{ width: "15rem" }}>
             <img src={require(`../img/${props.img}`) } 
-                  class="card-img-top" alt="..." 
+                  className="card-img-top" alt="..." 
                   style={{height:"235px", width: "235px"}}  
             />
-            <div class="card-body">
-                <h5 class="card-title">{props.title}</h5>
-                <p class="card-text">{props.text}</p>
+            <div className="card-body">
+                <h5 className="card-title">{props.title}</h5>
+                <p className="card-text">{props.text}</p>
             </div>
         </div>
     </>

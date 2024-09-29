@@ -10,7 +10,8 @@ function App() {
 
   const [user, setUser] = useState({
     logged:false,
-    role:''
+    role:'',
+    id: ''
   });
 
   console.log('user logged:', user.logged); // Debugging
