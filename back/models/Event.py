@@ -17,4 +17,3 @@ class Event(db.Model):
             f'lecturer: {self.lecturer}, '
             f'link: {self.link}, '
         )
-        

@@ -1,9 +1,11 @@
 from flask import  jsonify, request, Blueprint
 from database import db 
 from models.User import User
-import requests
+from flask_jwt_extended import create_access_token
+
 
 auth = Blueprint('auth', __name__, url_prefix= '/auth')
+
 
 @auth.route('/register', methods=['POST'])
 def register():
@@ -40,15 +42,14 @@ def login():
     password = data.get('password')
    
     #Solicito que la base de datos liste el primer email que coincida con el ingresado 
-    emailDb = User.query.filter_by(email=email).first()
-    role = emailDb.role
-    idUser = emailDb.id
-    print('role', role)
-    print("idUser", idUser)
+    user = User.query.filter_by(email=email).first()
+    role = user.role
+    idUser = user.id
     
-    if emailDb and emailDb.password == password:
+    if user and user.password == password:
         print('logueado correctamente')
-        return jsonify(role=role, idUser=idUser),200
+        access_token = create_access_token(identity={'id': idUser, 'role': role})
+        return jsonify(access_token=access_token, role=role, idUser=idUser), 200
     else:
         response = {'Mensaje': 'Error'}
         print('error de contraseña')

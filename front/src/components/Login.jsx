@@ -20,10 +20,12 @@ export const Login = () => {
   const handleForm = async(values) => {
     try {
       const response = await axios.post('http://localhost:5000/auth/login', values)
-      console.log(response.data)
 
-      const { role, idUser } = response.data
+      const { access_token , role, idUser } = response.data
       console.log(response.data)
+ 
+      // Guardar el token en localStorage
+      localStorage.setItem('access_token', access_token);
 
       Swal.fire({
         icon: 'success',

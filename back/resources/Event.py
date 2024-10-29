@@ -3,7 +3,7 @@ from flask import request, jsonify
 from models.User import User
 from models.Event import Event
 from database import db 
-
+from flask_jwt_extended import jwt_required 
 
 
 class EventsList(Resource):
@@ -13,14 +13,14 @@ class EventsList(Resource):
         description = request.json['description']
         lecturer = request.json['lecturer']
         link = request.json['link']
-   
+
         event = Event(name=name, description=description, lecturer=lecturer, link=link)
         
-        db.session.add(event),-l
+        db.session.add(event)
         db.session.commit()
         return jsonify({'mensaje': 'Evento agregado con éxito.'})
     
-    
+   
     def get(self):
         events = db.session.query(Event).all()
         result = []
@@ -43,6 +43,7 @@ class EventList(Resource):
         db.session.commit()
         return jsonify({'mensaje': 'Evento editado con éxito.'})
     
+    @jwt_required()
     def delete(self, id):
         event = Event.query.get_or_404(id)
         db.session.delete(event)

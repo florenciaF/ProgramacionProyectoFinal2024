@@ -36,11 +36,3 @@ function App() {
 
 export default App;
 
-{/* <Navbar />
-        
-<Routes>
-  <Route exact path="/dolar" element={ <Dolar />} />
-  <Route exact path="/home" element={ <Home />} />
-  <Route exact path="/login" element={ <Login />} />
-  <Route exact path="/register" element={ <Register />}/>
-</Routes> */}

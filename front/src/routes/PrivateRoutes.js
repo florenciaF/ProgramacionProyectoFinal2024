@@ -4,6 +4,7 @@ import { DashboardAdmin } from "../components/DashboardAdmin";
 import { Panel } from "../components/Panel";
 import { AddEvent } from "../components/AddEvent";
 import { ListEvents } from "../components/ListEvents";
+import { MyAttendances } from "../components/MyAttendances"
 
 export const PrivateRoutes = () => {
   return (
@@ -13,6 +14,7 @@ export const PrivateRoutes = () => {
         <Route path="/panel" element={<Panel />} />
         <Route path="/addEvent" element={<AddEvent />} />
         <Route path="/listEvents" element={<ListEvents />} />
+        <Route path="/myAttendances" element={<MyAttendances />} />
         <Route path='*' element={<Navigate to='/' replace />} />
     </Routes>
   )

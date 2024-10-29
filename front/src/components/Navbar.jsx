@@ -11,6 +11,8 @@ export const Navbar = () => {
         setUser({
             logged:false
         })
+        localStorage.removeItem('access_token');
+
     }
 
     return (
@@ -47,6 +49,9 @@ export const Navbar = () => {
                                 </li>
                                 <li className="nav-item">
                                     <Link className="nav-link" to="/listEvents">Listar Eventos</Link>
+                                </li>
+                                <li className="nav-item">
+                                    <Link className="nav-link" to="/myAttendances">Mis eventos</Link>
                                 </li>
                                 <li className="nav-item">
                                     <Link className="nav-link" to="/" onClick={handleLogOut} >Salir</Link>

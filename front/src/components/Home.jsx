@@ -1,4 +1,3 @@
-import { Card } from "./Card";
 
 export const Home = () => {
   return (
@@ -31,7 +30,7 @@ export const Home = () => {
                 <h1>Conecta con la Innovación:<br />  Eventos de Tecnología Online</h1>
                 <p className="lead text-muted">Con nuestra aplicación, tendrás al alcance de tu mano una lista completa de eventos de tecnología online que se actualizan constantemente. Desde conferencias sobre inteligencia artificial hasta las últimas tendencias en desarrollo de software, podrás elegir qué sesiones te interesan, sin importar dónde te encuentres.</p>
                 <p className="lead text-muted">Participa con disertantes internacionales. Con solo un clic, tendrás acceso directo al link del evento online, sin perder tiempo en búsquedas complejas.</p>
-                <div className="pt-4"><a className="btn btn-primary me-3" href="#">Registrarme </a><a className="btn btn-outline-primary" href="#">Mas información</a></div>
+                <div className="pt-4"><div className="btn btn-primary me-3">Registrarme </div><div className="btn btn-outline-primary" >Mas información</div></div>
                 </div>
             </div>
             </div>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Swal from 'sweetalert2'
@@ -15,15 +15,35 @@ export const ListEvents = () => {
     //almaceno los valores que se muestran en la ventana modal
     const [editedEvent, setEditedEvent] = useState({ id: 0, name: '', description: '', lecturer:'', link:'' });
 
+ 
+    // const fetchEvent = useCallback(async () => {
+    //     console.log('Valor del token:', user.token); 
+    //     try {
+    //         const response = await axios.get('http://localhost:5000/events', {
+    //             headers: {
+    //                 Authorization: `Bearer ${user.token}`
+    //             }
+    //         });
+    //         setEvents(response.data);
+    //     } catch (error) {
+    //         console.error(error);
+    //     }
+    // }, [user.token]);
+    
+    // useEffect(() => {
+    //     fetchEvent();
+    // }, [fetchEvent]);
+
     useEffect(() => {
         fetchEvent();
-      }, []);
+      }, []); 
+    
+    
 
-      
+
     const fetchEvent = async () => {
         try {
             const response = await axios.get('http://localhost:5000/events');
-            console.log(response)
             setEvents(response.data);
         } catch (error) {
             console.error(error);
@@ -68,12 +88,21 @@ export const ListEvents = () => {
     };
 
 
-    
     //Eliminar evento
     const onDeleteEvent = async (eventId) => {
-        console.log("eventId",eventId)
+    
+        const token = localStorage.getItem('access_token');
+        console.log('valor del token en onDeleteEvent', token)
+
+        if (!token) {
+            throw new Error('Error: Necesitas un token para realizar esta acción.');
+        }
         try {
-            await axios.delete(`http://localhost:5000/event/${eventId}`);
+            await axios.delete(`http://localhost:5000/event/${eventId}`, {
+                headers: {
+                    Authorization: `Bearer ${token}` // Incluye el token en el encabezado
+                }
+            });
             Swal.fire({
                 icon: 'success',
                 title: 'Eliminado correctamente',
@@ -99,6 +128,14 @@ export const ListEvents = () => {
         try {
             const response = await axios.post('http://localhost:5000/attendances', values)
             console.log(response.data)
+           
+            // cuando el usuario aplica al evento cambia el estado
+            setEvents(prevEvents => 
+                prevEvents.map(event => 
+                    event.id === eventId ? { ...event, status: 'applied' } : event
+                )
+            );
+
             Swal.fire({
                 icon: 'success',
                 title: 'Asistencia confirmada',
@@ -107,7 +144,14 @@ export const ListEvents = () => {
             })
             navigate('/listEvents')
         } catch (error) {
-            console.log(error)
+            if (error.response) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Ya aplicaste a este evento'
+                });
+            } else {
+                console.error(error);
+            }
         }
     };
 
@@ -141,7 +185,14 @@ export const ListEvents = () => {
                                             user.role === '2' ? ( 
                                                 <div>
                                                     <td> 
-                                                        <button type="button" className="btn btn-success" onClick={() => onAddAttendance(event.id)} > Aplicar </button>
+                                                        {/* <button type="button" className="btn btn-success" onClick={() => onAddAttendance(event.id)} > Aplicar </button> */}
+                                                        {
+                                                            event.status === 'applied' ? (
+                                                                <button className="btn btn-secondary" disabled>Aplicado</button>
+                                                            ) : (
+                                                                <button className="btn btn-success" onClick={() => onAddAttendance(event.id)}>Aplicar</button>
+                                                            )
+                                                        }
                                                     </td>
                                                     
                                                 </div>

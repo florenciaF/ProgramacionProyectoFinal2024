@@ -1,8 +1,6 @@
 import logging
 from logging.config import fileConfig
-from models import User
-from models import Event
-from models import Attendance
+
 from flask import current_app
 
 from alembic import context
